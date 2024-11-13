@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezume </title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Umumiy Stil */
+        body, html {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            scroll-behavior: smooth;
+            color: #fff;
+            background-image: url('https://get.wallhere.com/photo/1920x1080-px-aqua-ball-1281851.jpg');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            padding: 1rem;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.4);
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+        }
+        .navbar-nav .nav-item .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        /* Bo'limlar umumiy dizayni */
+        .section {
+            padding: 80px 0;
+            background: transparent;
+            margin: 20px;
+        }
+        .section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.9);
+        }
+
+        /* Bosh Sahifa */
+        .home {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .home-content h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            margin: 0;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.9);
+        }
+        .home-content p {
+            font-size: 1.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 5px rgba(255, 255, 255, 0.9);
+        }
+
+        /* Skills */
+        .skills .skill-bar {
+            height: 30px;
+            background: #007bff;
+            width: 0;
+            transition: width 1.5s ease-in-out;
+            border-radius: 5px;
+        }
+
+        /* Contact form */
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 2px solid #007bff;
+            border-radius: 5px;
+            background: transparent;
+            color: #fff;
+        }
+
+        /* Contact form button */
+        .contact-form button {
+            background: transparent;
+            color: #007bff;
+            border: 2px solid #007bff;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background 0.3s, color 0.3s;
+        }
+        .contact-form button:hover {
+            background: #007bff;
+            color: #fff;
+            box-shadow: 0px 2px 8px rgba(0, 91, 187, 0.4);
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px 0;
+            text-align: center;
+            color: #fff;
+        }
+
+        .footer h3 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .footer a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .footer a:hover {
+            color: #0056b3;
+            text-decoration: underline;
+        }
+
+        .footer-icons img {
+            width: 30px;
+            height: 30px;
+            margin: 0 15px;
+            transition: transform 0.3s;
+        }
+
+        .footer-icons img:hover {
+            transform: scale(1.2);
+        }
+
+        /* Footer Info */
+        .footer-info p {
+            font-size: 1rem;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+        <a class="navbar-brand" href="#home">2024 Rezume</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item"><a class="nav-link" href="#home">Bosh Sahifa</a></li>
+                <li class="nav-item"><a class="nav-link" href="#about">Haqimda</a></li>
+                <li class="nav-item"><a class="nav-link" href="#experience">Tajriba</a></li>
+                <li class="nav-item"><a class="nav-link" href="#skills">Malaka</a></li>
+                <li class="nav-item"><a class="nav-link" href="#websites">Saytlar</a></li>
+                <li class="nav-item"><a class="nav-link" href="#contact">Aloqa</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'malumot' %}">Malumotlar</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Log out</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Bosh Sahifa -->
+<section id="home" class="home">
+    {% for x in resumes %}
+    <div class="home-content">
+        <h1>{{ x.user }}</h1>
+        <p>{{ x.kim }}</p>
+    </div>
+    {% endfor %}
+    <img src="{% url 'generate_qr_code' %}" width="100px" alt="Foydalanuvchi asosiy sahifasi uchun QR kod">
+    <a href="{% url 'generate_qr_code' %}" download="qr_code.png" class="download-btn">Yuklab olish✅</a>
+</section>
+
+<!-- Haqimda Bo'limi -->
+<section id="about" class="section">
+    {% for x in resumes %}
+    <div class="container text-center">
+        <h2>Men Haqimda</h2>
+        <p>{{ x.ozi_haqida }}</p>
+    </div>
+    {% endfor %}
+</section>
+
+<!-- Tajriba Bo'limi -->
+<section id="experience" class="section experience">
+    <div class="container text-center">
+        <h2>Tajriba</h2>
+        <div class="row">
+            {% for x in tajribalar %}
+            <div class="col-md-4">
+                <h4>{{ x.kompaniya }}</h4>
+                <p>{{ x.kim }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Malaka Bo'limi -->
+<section id="skills" class="section skills">
+    <div class="container text-center">
+        <h2>Malaka</h2>
+        <div class="row">
+            {% for x in malakalar %}
+            <div class="col-md-6">
+                <h4>{{ x.nomi }}</h4>
+                <div class="progress">
+                    <div class="skill-bar" style="width: {{ x.daraja }}%;">{{ x.daraja }}%</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Saytlar Bo'limi -->
+<section id="websites" class="section websites">
+    <div class="container text-center">
+        <h2>Saytlar</h2>
+        <div class="row">
+            {% for website in saytlar %}
+            <div class="col-md-4">
+                <h4>{{ website.name }}</h4>
+                <div class="website-links">
+                    <a href="{{ website.link1 }}" target="_blank">Link 1</a>
+                    <a href="{{ website.link2 }}" target="_blank">Link 2</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Aloqa Bo'limi -->
+<!-- Aloqa Bo'limi -->
+<section id="contact" class="section">
+    <div class="container text-center">
+        <h2>Aloqa</h2>
+        <!-- Form for sending a message -->
+        <form method="POST" class="contact-form">
+            {% csrf_token %} <!-- Django CSRF protection token -->
+             <!-- Error messages for each field -->
+            {% for field in form %}
+                {% if field.errors %}
+                    <div class="error">
+                        {% for error in field.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endfor %}
+            <!-- Render form fields -->
+            <input type="text" name="name" placeholder="Ismingiz" value="{{ form.name.value }}" required>
+            <input type="email" name="email" placeholder="Email" value="{{ form.email.value }}" required>
+            <textarea name="message" placeholder="Xabar" required>{{ form.message.value }}</textarea>
+            <button type="submit">Yuborish</button>
+        </form>
+
+        <!-- Display success or error message -->
+        {% if messages %}
+            <div class="alert alert-success mt-3">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+</section>
+<!-- Footer Section -->
+<section id="footer" class="footer">
+    <div class="container">
+        <h3>Jamshidbek Xaminov</h3>
+        <p>Websaytni yaratgan: Jamshidbek Xaminov</p>
+        <p>Telefon raqam: <a href="tel:+998771253404">771253404</a></p>
+        <p>Manzil: Farg'ona viloyati, Bag'dod tumani</p>
+
+        <div class="footer-icons">
+            <!-- Telegram Icon -->
+            <a href="https://t.me/Xaminov_20_04" target="_blank">
+                <img src="https://static.tildacdn.com/tild3663-3962-4137-b132-386637356461/1719809925_.png" alt="Telegram">
+            </a>
+            <!-- Instagram Icon -->
+            <a href="https://www.instagram.com/jama_3404" target="_blank">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+            </a>
+        </div>
+
+        <div class="footer-info mt-4">
+            <p>Telegram: <a href="https://t.me/Xaminov_20_04" target="_blank">Xaminov_20_04</a></p>
+            <p>Instagram: <a href="https://www.instagram.com/jama_3404" target="_blank">jama_3404</a></p>
+        </div>
+    </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
